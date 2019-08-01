@@ -1,1 +1,44 @@
-<p>progress works!</p>
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="card-title">Barra de progreso</div>
+        <div class="progress">
+          <div class="progress-bar progress-bar-striped progress-bar-animated"
+               role="progressbar"
+               [attr.ariaValueNow]="porcentaje"
+               aria-valuemin="0"
+               aria-valuemax="100"
+               [style.width]="porcentaje + '%'">
+          </div>
+        </div>
+        <br>
+        <div class="progress">
+          <div class="progress-bar progress-bar-striped progress-bar-animated"
+               role="progressbar"
+               [attr.ariaValueNow]="porcentaje"
+               aria-valuemin="0"
+               aria-valuemax="100"
+               [style.width]="porcentaje + '%'">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-6">
+    <div class="card">
+      <div class="card-body">
+        <app-incrementador></app-incrementador>
+      </div>
+    </div>
+  </div>
+  <div class="col-6">
+    <div class="card">
+      <div class="card-body">
+        <app-incrementador></app-incrementador>
+      </div>
+    </div>
+  </div>
+</div>
+
