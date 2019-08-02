@@ -7,10 +7,15 @@
             ><i class="mdi mdi-plus"></i></button>
           </span>
   <input name="porcentaje"
+         #txtProgress
          [(ngModel)]="porcentaje"
-         type="text"
+         type="number"
+         min="0"
+         max="100"
          class="form-control"
-         placeholder="Porcentaje">
+         placeholder="Porcentaje"
+         (ngModelChange)="onChanges($event)"
+  >
   <span class="input-group-btn">
             <button class="btn btn-primary"
                     type="button"
