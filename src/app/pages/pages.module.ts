@@ -33,6 +33,7 @@ import { AccountSettingsComponent } from './account-settings/account-settings.co
     ProgressComponent,
     Graficas1Component,
     GraficoDonaComponent,
+    IncrementadorComponent,
     AccountSettingsComponent
   ],
   imports: [

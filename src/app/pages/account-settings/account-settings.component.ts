@@ -1,7 +1,9 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
 import { ElementRef} from '@angular/core';
-import {parseSelectorToR3Selector} from '@angular/compiler/src/core';
+
+// Servicios
+import {SettingsService} from '../../services/service.index';
 
 @Component({
   selector: 'app-account-settings',
@@ -10,23 +12,20 @@ import {parseSelectorToR3Selector} from '@angular/compiler/src/core';
 })
 export class AccountSettingsComponent implements OnInit {
 
-  constructor(
-    // TRUCO: Esta es la forma de injectar el objeto DOCUMENT para tener acceso al DOM;
-    @Inject(DOCUMENT) private document
-  ) { }
+  constructor(public ajustesService: SettingsService) { }
 
   ngOnInit() {
+    this.colocarCheck();
   }
- cambiarColor(tema: string, link: ElementRef) {
-    // TRUCO: Asignar tipo ElementRef a variable que trae objeto DOM, para tener sus propiedades. Importar libreria.
-    console.log(link);
-    const url = `assets/css/colors/${tema}.css`;
-    this.document.getElementById('theme').setAttribute('href', url);
+
+  cambiarColor(tema: string, link: ElementRef) {
     this.aplicarCheck(link);
- }
- aplicarCheck(link: ElementRef) {
+    this.ajustesService.aplicarTema(tema);
+  }
+
+ aplicarCheck(link: any) {
     // Recopilamos todos los elementos HTML con la clase "selector", es decir, todos los links <a> a los temas.
-   const selectores = document.getElementsByClassName('selector');
+   const selectores: any = document.getElementsByClassName('selector');
     // Mediante un bucle les eleminamos a todos la clase working.
    // TRUCO: Para eliminar una clase de un elemento HTML: x.classList.remove(clase)
    for (const elementoIndividual of selectores) {
@@ -38,4 +37,17 @@ export class AccountSettingsComponent implements OnInit {
    link.classList.add('working');
  }
 
+ colocarCheck(){
+   // Para colocar el check en el tema seleccionado. Partimos de que no hay ninguno seleccionado.
+   // Recopilamos todos los elementos HTML con la clase "selector", es decir, todos los links <a> a los temas.
+   const selectores: any = document.getElementsByClassName('selector');
+   // Mediante un bucle comprobamos si su atributo data-theme coincide con el tema de ajustes y
+   // en caso afirmativo le aañadimos el estilo working que es el que muestra el tick.
+   const temaActual = this.ajustesService.ajustes.tema;
+   for (const elementoIndividual of selectores) {
+     if (elementoIndividual.getAttribute('data-theme') === temaActual) {
+       elementoIndividual.classList.add('working');
+     }
+   }
+ }
 }
