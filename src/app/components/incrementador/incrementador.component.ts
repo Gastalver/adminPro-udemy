@@ -17,11 +17,11 @@ export class IncrementadorComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('Leyenda: ' + this.leyenda);
+    // console.log('Leyenda: ' + this.leyenda);
     // console.log('Porcentaje: ' + this.porcentaje);
   }
   onChanges(newValue: number) {
-    console.log(this.txtProgress.nativeElement.value);
+    // console.log(this.txtProgress.nativeElement.value);
     if (newValue >= 100 ) {
       this.porcentaje = 100;
     } else if (newValue <= 0 || newValue === null ) {

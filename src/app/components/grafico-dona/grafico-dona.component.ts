@@ -16,10 +16,10 @@ export class GraficoDonaComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log('Leyenda: ' + this.leyenda);
-    console.log('doughnutChartLabels: ' + JSON.stringify(this.doughnutChartLabels));
-    console.log('doughnutChartData: ' + JSON.stringify(this.doughnutChartData));
-    console.log('doughnutChartType: ' + JSON.stringify(this.doughnutChartType));
+    // console.log('Leyenda: ' + this.leyenda);
+    // console.log('doughnutChartLabels: ' + JSON.stringify(this.doughnutChartLabels));
+    // console.log('doughnutChartData: ' + JSON.stringify(this.doughnutChartData));
+    // console.log('doughnutChartType: ' + JSON.stringify(this.doughnutChartType));
   }
 
 }
