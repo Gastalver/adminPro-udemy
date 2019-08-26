@@ -1,20 +1,24 @@
-// Centralizamos en este módulo todos los servicios que cargaremos  en el app module, para qno inflar este.
+// Centralizamos en este módulo todos los servicios que cargaremos  en el app module, para no inflar este.
 
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { SettingsService, SharedService, SidebarService } from './service.index';
+import {LoginGuardGuard, SettingsService, SharedService, SidebarService, UsuarioService} from './service.index';
+import {HttpClientModule} from '@angular/common/http';
 
 
 @NgModule({
   declarations: [],
   imports: [
-    CommonModule
+    CommonModule,
+    HttpClientModule
   ],
   providers: [
     SettingsService,
     SharedService,
-    SidebarService
+    SidebarService,
+    UsuarioService,
+    LoginGuardGuard
   ]
 })
 export class ServiceModule { }

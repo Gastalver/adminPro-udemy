@@ -5,7 +5,8 @@
   <title>Adminpro</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
+  <!-- ID de la API de Google SignIn -->
+  <meta name="google-signin-client_id" content="1903587770-4i6nsvn2c1rk6k2t3mc2paktoelc1gb5.apps.googleusercontent.com">
   <!-- Favicon icon -->
   <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon.png">
   <!-- Bootstrap Core CSS -->
@@ -37,7 +38,10 @@
 
 
   <app-root></app-root>
-
+  <!-- Libreria oficial de Google para integrar Google SingIn -->
+  <!-- No incluimos los atributos async y defer propuestos por Google porque necesitamos que siempre esté disponible -->
+  <!-- En esta librería están el objeto gapi -->
+  <script src="https://apis.google.com/js/platform.js"></script>
 
   <!-- ============================================================== -->
   <!-- All Jquery -->

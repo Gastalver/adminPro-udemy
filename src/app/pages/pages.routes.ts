@@ -6,12 +6,14 @@ import {PagesComponent} from './pages.component';
 import {AccountSettingsComponent} from './account-settings/account-settings.component';
 import {PromesasComponent} from './promesas/promesas.component';
 import {RxjsComponent} from './rxjs/rxjs.component';
+import {LoginGuardGuard} from '../services/service.index';
 
 const pagesRoutes: Routes = [
   // TRUCO Añadir parámetro data a rutas, donde podemos colocar lo que queramos y se podrá leer en destino.
   {
     path: '',
     component: PagesComponent,
+    canActivate: [LoginGuardGuard],
     children:
       [
         { path: 'dashboard', component: DashboardComponent, data: { titulo: 'Dashboard', descripcion: 'Panel de control'} },
