@@ -7,6 +7,7 @@ import {AccountSettingsComponent} from './account-settings/account-settings.comp
 import {PromesasComponent} from './promesas/promesas.component';
 import {RxjsComponent} from './rxjs/rxjs.component';
 import {LoginGuardGuard} from '../services/service.index';
+import {ProfileComponent} from './profile/profile.component';
 
 const pagesRoutes: Routes = [
   // TRUCO Añadir parámetro data a rutas, donde podemos colocar lo que queramos y se podrá leer en destino.
@@ -22,6 +23,7 @@ const pagesRoutes: Routes = [
         { path: 'promesas', component: PromesasComponent, data: { titulo: 'Promesas', descripcion: 'Ejemplos de promesas'} },
         { path: 'rxjs', component: RxjsComponent, data: { titulo: 'RxJs', descripcion: 'Ejemplos de observables'} },
         { path: 'account-settings', component: AccountSettingsComponent, data: { titulo: 'Ajustes del tema', descripcion: 'Cambiar color del template'} },
+        { path: 'perfil', component: ProfileComponent, data: { titulo: 'Perfil de usuario', descripcion: 'Perfil de usuario'} },
         { path: '', redirectTo: '/dashboard', pathMatch: 'full' }
       ]
   }

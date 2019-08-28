@@ -1,4 +1,4 @@
-import { HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {URL_API} from '../../config/config';
 import {Observable} from 'rxjs';
@@ -8,6 +8,7 @@ import Swal from 'sweetalert2';
 // Modelos
 import {Usuario} from '../../models/usuario.model';
 import {Router} from '@angular/router';
+import {SubirArchivosService} from '../subirArchivo/subir-archivos.service';
 
 @Injectable({
   providedIn: 'root'
@@ -89,7 +90,8 @@ export class UsuarioService {
 
   constructor(
     public httpService: HttpClient,
-    public router: Router
+    public router: Router,
+    public servicioSubirImagen: SubirArchivosService
   ) {
     // Inicializamos valores token y usuario cada vez que se cargue el servicio.
     this.cargarStorage();
@@ -110,6 +112,20 @@ export class UsuarioService {
       );
   }
 
+  actualizarUsuario(usuario: Usuario): Observable<any> {
+    const url = URL_API + '/usuario/' + usuario._id;
+    const cabeceras = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', this.token);
+    console.log('URL actualizar: ' + url);
+    return this.httpService.put(url, usuario, { headers: cabeceras}).pipe(
+      map((respuesta: any) => {
+        this.guardarStorage(respuesta.usuario._id, this.token, respuesta.usuario );
+        Swal.fire('Usuario actualizado', usuario.nombre, 'success');
+      })
+    );
+  }
+
   guardarStorage(id: string, token: string, usuario: Usuario) {
     localStorage.setItem('id', JSON.stringify(id));
     localStorage.setItem('token', JSON. stringify(token));
@@ -117,5 +133,17 @@ export class UsuarioService {
     // Seteamos las propiedades token y usuario, para que conste que está logueado.
     this.token = token;
     this.usuario = usuario;
+  }
+  cambiarImagen(archivo: File, id: string) {
+    this.servicioSubirImagen.subirArchivo(archivo, 'usuarios', id).then(
+      (respuesta: any) => {
+        console.log(respuesta);
+        this.usuario.img = respuesta.usuario.img;
+        Swal.fire('Imagen actualizada', this.usuario.nombre, 'success');
+        this.guardarStorage(id, this.token, this.usuario);
+      }
+    ).catch( respuestaRejected => {
+      console.log(respuestaRejected);
+    });
   }
 }

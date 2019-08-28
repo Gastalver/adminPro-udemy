@@ -32,7 +32,7 @@ import { RegisterComponent } from './login/register.component';
     SharedModule,
     FormsModule,
     ReactiveFormsModule,
-    ServiceModule
+    ServiceModule,
   ],
   providers: [],
   exports: [
