@@ -7,3 +7,4 @@ export { SidebarService} from './shared/sidebar.service';
 export { UsuarioService} from './usuario/usuario.service';
 export { LoginGuardGuard } from './guards/login-guard.guard';
 export { SubirArchivosService } from './subirArchivo/subir-archivos.service';
+export { ModalUploadService} from '../components/modal-upload/modal-upload.service';

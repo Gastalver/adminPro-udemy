@@ -117,10 +117,16 @@ export class UsuarioService {
     const cabeceras = new HttpHeaders()
       .set('Content-Type', 'application/json')
       .set('Authorization', this.token);
-    console.log('URL actualizar: ' + url);
+    // console.log('URL actualizar: ' + url);
     return this.httpService.put(url, usuario, { headers: cabeceras}).pipe(
       map((respuesta: any) => {
-        this.guardarStorage(respuesta.usuario._id, this.token, respuesta.usuario );
+        // Si se ha modificado el usuario logueado, actualizamos el valor
+        // del localStorage. Si no -por ejemplo si desde
+        // mantenimiento se ha actualizado otro usuario- no.
+        if (respuesta.usuario._id === this.usuario._id) {
+          const usuarioActualizado: Usuario = respuesta.usuario;
+          this.guardarStorage(usuarioActualizado._id, this.token, usuarioActualizado );
+        }
         Swal.fire('Usuario actualizado', usuario.nombre, 'success');
       })
     );
@@ -145,5 +151,35 @@ export class UsuarioService {
     ).catch( respuestaRejected => {
       console.log(respuestaRejected);
     });
+  }
+
+  cargarUsuarios(desde: number = 0, ) {
+    const url = URL_API + '/usuario?desde=' + desde;
+    return this.httpService.get(url);
+  }
+  buscarUsuarios(termino: string) {
+    const url = URL_API + '/busqueda/usuarios/' + termino;
+    return this.httpService.get(url).pipe(
+      map((respuesta: any) => {
+        return respuesta.usuarios;
+      })
+    );
+  }
+  borrarUsuario(usuario: Usuario) {
+    const url = URL_API + '/usuario/' + usuario._id;
+    const cabeceras = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', this.token);
+    return this.httpService.delete(url, {headers: cabeceras}).pipe(
+      map(
+        (respuesta: any) => {
+          Swal.fire(
+            'Eliminado',
+            'El usuario ' + respuesta.usuario.nombre + ' ha sido eliminado.',
+            'success'
+          );
+          return respuesta;
+        })
+    );
   }
 }
