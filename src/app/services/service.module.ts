@@ -1,7 +1,8 @@
-// Centralizamos en este módulo todos los servicios que cargaremos  en el app module, para no inflar este.
-
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import {HttpClientModule} from '@angular/common/http';
+
+// Centralizamos en este módulo todos los servicios que cargaremos  en el app module, para no inflar este.
 
 import {
   LoginGuardGuard,
@@ -10,11 +11,10 @@ import {
   SidebarService,
   UsuarioService,
   SubirArchivosService,
-  ModalUploadService
+  ModalUploadService,
+  HospitalService,
+  MedicoService
 } from './service.index';
-
-import {HttpClientModule} from '@angular/common/http';
-
 
 @NgModule({
   declarations: [],
@@ -29,7 +29,9 @@ import {HttpClientModule} from '@angular/common/http';
     UsuarioService,
     LoginGuardGuard,
     SubirArchivosService,
-    ModalUploadService
+    ModalUploadService,
+    HospitalService,
+    MedicoService
   ]
 })
 export class ServiceModule { }

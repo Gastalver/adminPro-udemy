@@ -29,7 +29,7 @@ export class UsuariosComponent implements OnInit {
       (respuesta) => {
         this.cargarUsuarios();
       }
-    )
+    );
   }
 
   cargarUsuarios() {
