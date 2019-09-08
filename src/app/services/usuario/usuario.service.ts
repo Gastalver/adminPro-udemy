@@ -168,6 +168,7 @@ export class UsuarioService {
     this.token = token;
     this.usuario = usuario;
     this.menu = menu;
+    // console.log('UsuarioService.guardarStorage correctamente ejecutado');
   }
   cambiarImagen(archivo: File, id: string) {
     this.servicioSubirImagen.subirArchivo(archivo, 'usuarios', id).then(
@@ -209,6 +210,29 @@ export class UsuarioService {
           );
           return respuesta;
         })
+    );
+  }
+  renuevaToken() {
+    const url = URL_API + '/login/renuevatoken';
+    const cabeceras = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', this.token);
+    return this.httpService.get(url, {headers: cabeceras}).pipe(
+      map(
+        (respuesta: any) => {
+          this.token = respuesta.token;
+          localStorage.setItem('token', this.token);
+          // Vamos a devolver true, para simplificar la lógica de los suscriptores.
+          return true;
+        }
+      ),
+      catchError(
+        (err) => {
+          Swal.fire('No se pudo renovar el token', 'No fue posible renovar el token', 'error');
+          this.logOut();
+          return throwError(err);
+        }
+      )
     );
   }
 }

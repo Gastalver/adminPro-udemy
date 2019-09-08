@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import {HttpClientModule} from '@angular/common/http';
 
 // Centralizamos en este módulo todos los servicios que cargaremos  en el app module, para no inflar este.
-
 import {
   LoginGuardGuard,
   SettingsService,
@@ -14,7 +13,8 @@ import {
   ModalUploadService,
   HospitalService,
   MedicoService,
-  AdminGuard
+  AdminGuard,
+  VerificaTokenGuard
 } from './service.index';
 
 @NgModule({
@@ -33,7 +33,8 @@ import {
     ModalUploadService,
     HospitalService,
     MedicoService,
-    AdminGuard
+    AdminGuard,
+    VerificaTokenGuard
   ]
 })
 export class ServiceModule { }

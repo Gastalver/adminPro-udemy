@@ -11,3 +11,4 @@ export { ModalUploadService} from '../components/modal-upload/modal-upload.servi
 export { HospitalService } from './hospital/hospital.service';
 export { MedicoService} from './medico/medico.service';
 export  { AdminGuard} from './guards/admin.guard';
+export { VerificaTokenGuard} from './guards/verifica-token.guard';

@@ -8,27 +8,32 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {APP_ROUTES} from './app.routes';
 
 // Modulos propios
-import { PagesModule} from './pages/pages.module';
+// Pages Module lo cargamos mediante lazy upload, no directamente.
+// import { PagesModule} from './pages/pages.module';
 import { SharedModule } from './shared/shared.module';
 
 // Servicios.
 import { ServiceModule} from './services/service.module';
 
-// Componentes
+// Componentes. Aconsejable que sean los estrictamente imprescindibles para login o
+// registro, para que carque ultra rápido. Y que el resto se cargue mediante
+// lazy loading.
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './login/register.component';
+import { PagesComponent} from './pages/pages.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     RegisterComponent,
+    PagesComponent
   ],
   imports: [
     BrowserModule,
     APP_ROUTES,
-    PagesModule,
+    // PagesModule,
     SharedModule,
     FormsModule,
     ReactiveFormsModule,
