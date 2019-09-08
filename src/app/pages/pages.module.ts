@@ -21,12 +21,13 @@ import { RxjsComponent } from './rxjs/rxjs.component';
 import { ProfileComponent } from './profile/profile.component';
 import { UsuariosComponent } from './usuarios/usuarios.component';
 import { ModalUploadComponent} from '../components/modal-upload/modal-upload.component';
+import { MedicosComponent } from './medicos/medicos.component';
+import { MedicoComponent } from './medicos/medico.component';
+import { BusquedaComponent } from './busqueda/busqueda.component';
 
 // Pipes module
 import {PipesModule} from '../pipes/pipes.module';
 import { HospitalesComponent } from './hospitales/hospitales.component';
-import { MedicosComponent } from './medicos/medicos.component';
-import { MedicoComponent } from './medicos/medico.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { MedicoComponent } from './medicos/medico.component';
     ModalUploadComponent,
     HospitalesComponent,
     MedicosComponent,
-    MedicoComponent
+    MedicoComponent,
+    BusquedaComponent
   ],
   exports: [
     PagesComponent,
@@ -54,7 +56,8 @@ import { MedicoComponent } from './medicos/medico.component';
     GraficoDonaComponent,
     IncrementadorComponent,
     AccountSettingsComponent,
-    ModalUploadComponent
+    ModalUploadComponent,
+    BusquedaComponent
   ],
   imports: [
     CommonModule,

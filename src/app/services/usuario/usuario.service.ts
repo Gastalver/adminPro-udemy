@@ -1,8 +1,8 @@
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {URL_API} from '../../config/config';
-import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import {Observable, of, throwError} from 'rxjs';
+import {map, catchError} from 'rxjs/operators';
 import Swal from 'sweetalert2';
 
 // Modelos
@@ -18,6 +18,7 @@ export class UsuarioService {
   // No confundir con los parámetros de las funciones, que no tienen nada que ver.
   public token: string;
   public usuario: Usuario;
+  public menu: any = [];
 
   /**
    * Comprueba si la propiedad token tiene valor o no, o sea, si el usuario está logueado o no.
@@ -34,9 +35,11 @@ export class UsuarioService {
     if (localStorage.getItem('token')) {
       this.token = localStorage.getItem('token');
       this.usuario = JSON.parse(localStorage.getItem('usuario'));
+      this.menu = JSON.parse(localStorage.getItem('menu'));
     } else {
       this.token = '';
       this.usuario = null;
+      this.menu = null;
     }
   }
 
@@ -45,7 +48,7 @@ export class UsuarioService {
    * @param usuario Un objeto de tipo Usuario
    * @param recuerdame Un booleano que informa si quiere ser recordado
    */
-  public login(usuario: Usuario, recuerdame: boolean): Observable<any> {
+  public login(usuario: Usuario, recuerdame: boolean = false): Observable<any> {
     // Primero gestionamos la opción de recordar usuario
     if (recuerdame) {
       localStorage.setItem('email', usuario.email);
@@ -58,11 +61,20 @@ export class UsuarioService {
       // Si el login es correcto serializamos (guardamos y tendremos disponibles) los datos en el localhost
       map(
         (respuesta: any) => {
-          this.guardarStorage(respuesta.id, respuesta.token, respuesta.usuario);
+          console.log(respuesta);
+          this.guardarStorage(respuesta.id, respuesta.token, respuesta.usuario, respuesta.menu);
           // Devolvemos solo true, porque no necesitamos hacer nada más con la respuesta
           // El componente que consume el servicio simplemente redirigirá a la página autenticada de inicio.
           // Cfr. susbscribe en login.component.ts
           return true;
+        }
+      ),
+      catchError(
+        (err) => {
+          console.log(err.status);
+          console.log(err.error.mensaje);
+          Swal.fire('Error en el LogIn', err.error.mensaje, 'error');
+          return throwError(err);
         }
       )
     );
@@ -71,9 +83,11 @@ export class UsuarioService {
   public logOut() {
     this.usuario = null;
     this.token = '';
+    this.menu = [];
     localStorage.removeItem('id');
     localStorage.removeItem('token');
     localStorage.removeItem('usuario');
+    localStorage.removeItem('menu');
     this.router.navigate(['/login']);
   }
 
@@ -82,7 +96,7 @@ export class UsuarioService {
     const url = URL_API + '/login/google';
     return this.httpService.post(url, {token} ).pipe(
       map((respuesta: any) => {
-        this.guardarStorage(respuesta.id, respuesta.token, respuesta.usuario);
+        this.guardarStorage(respuesta.id, respuesta.token, respuesta.usuario, respuesta.menu);
         return true;
       })
     );
@@ -108,7 +122,13 @@ export class UsuarioService {
         map((respuesta: any) => {
           Swal.fire('Registro finalizado', `Usuario ${respuesta.usuario.email} creado correctamente` );
           return respuesta.usuario;
-        })
+        }),
+        catchError(
+          (err) => {
+            Swal.fire(err.error.mensaje,err.error.error.message, 'error');
+            return throwError(err);
+          }
+        )
       );
   }
 
@@ -125,20 +145,29 @@ export class UsuarioService {
         // mantenimiento se ha actualizado otro usuario- no.
         if (respuesta.usuario._id === this.usuario._id) {
           const usuarioActualizado: Usuario = respuesta.usuario;
-          this.guardarStorage(usuarioActualizado._id, this.token, usuarioActualizado );
+          this.guardarStorage(usuarioActualizado._id, this.token, usuarioActualizado, respuesta.menu );
         }
         Swal.fire('Usuario actualizado', usuario.nombre, 'success');
-      })
+      }),
+      catchError(
+        (err) => {
+          Swal.fire(err.error.mensaje,err.error.error.message, 'error');
+          return throwError(err);
+        }
+      )
     );
   }
 
-  guardarStorage(id: string, token: string, usuario: Usuario) {
+  guardarStorage(id: string, token: string, usuario: Usuario, menu: any) {
     localStorage.setItem('id', JSON.stringify(id));
     localStorage.setItem('token', JSON. stringify(token));
     localStorage.setItem('usuario', JSON.stringify(usuario));
+    localStorage.setItem('menu', JSON.stringify(menu));
+
     // Seteamos las propiedades token y usuario, para que conste que está logueado.
     this.token = token;
     this.usuario = usuario;
+    this.menu = menu;
   }
   cambiarImagen(archivo: File, id: string) {
     this.servicioSubirImagen.subirArchivo(archivo, 'usuarios', id).then(
@@ -146,7 +175,7 @@ export class UsuarioService {
         console.log(respuesta);
         this.usuario.img = respuesta.usuario.img;
         Swal.fire('Imagen actualizada', this.usuario.nombre, 'success');
-        this.guardarStorage(id, this.token, this.usuario);
+        this.guardarStorage(id, this.token, this.usuario, this.menu);
       }
     ).catch( respuestaRejected => {
       console.log(respuestaRejected);

@@ -11,7 +11,7 @@ import {APP_ROUTES} from './app.routes';
 import { PagesModule} from './pages/pages.module';
 import { SharedModule } from './shared/shared.module';
 
-// Servicios
+// Servicios.
 import { ServiceModule} from './services/service.module';
 
 // Componentes

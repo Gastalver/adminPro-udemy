@@ -10,3 +10,4 @@ export { SubirArchivosService } from './subirArchivo/subir-archivos.service';
 export { ModalUploadService} from '../components/modal-upload/modal-upload.service';
 export { HospitalService } from './hospital/hospital.service';
 export { MedicoService} from './medico/medico.service';
+export  { AdminGuard} from './guards/admin.guard';
